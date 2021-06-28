@@ -1,3 +1,4 @@
+c:\Windows\Sysnative\WindowsPowerShell\v1.0\powershell.exe -Command whoami
 c:\Windows\Sysnative\WindowsPowerShell\v1.0\powershell.exe -Command Expand-Archive -LiteralPath c:\inetpub\wwwroot\application.zip -DestinationPath c:\inetpub\wwwroot -Force
 set FOLDER=%HOMEDRIVE%\temp\CodeDeployExample
 
