@@ -1,4 +1,4 @@
-unzip -l c:\inetpub\wwwroot\application.zip
+Expand-Archive -LiteralPath c:\inetpub\wwwroot\application.zip -DestinationPath c:\inetpub\wwwroot
 set FOLDER=%HOMEDRIVE%\temp\CodeDeployExample
 
 if exist %FOLDER% (
