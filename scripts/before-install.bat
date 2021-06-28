@@ -1,3 +1,4 @@
+unzip -l c:\inetpub\wwwroot\application.zip
 set FOLDER=%HOMEDRIVE%\temp\CodeDeployExample
 
 if exist %FOLDER% (
