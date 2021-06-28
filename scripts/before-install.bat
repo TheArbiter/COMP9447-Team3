@@ -1,6 +1,5 @@
 c:\Windows\Sysnative\WindowsPowerShell\v1.0\powershell.exe -Command whoami
-c:\Windows\Sysnative\WindowsPowerShell\v1.0\powershell.exe -Command Remove-Item c:\inetpub\wwwroot\* -Exclude *.zip -Recurse -Force
-c:\Windows\Sysnative\WindowsPowerShell\v1.0\powershell.exe -Command Expand-Archive -LiteralPath c:\inetpub\wwwroot\application.zip -DestinationPath c:\inetpub\wwwroot -Force
+"""c:\Windows\Sysnative\WindowsPowerShell\v1.0\powershell.exe -Command Remove-Item c:\inetpub\wwwroot\* -Exclude *.zip -Recurse -Force"""
 set FOLDER=%HOMEDRIVE%\temp\CodeDeployExample
 
 if exist %FOLDER% (
