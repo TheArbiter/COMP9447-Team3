@@ -1,4 +1,4 @@
-Expand-Archive -LiteralPath c:\inetpub\wwwroot\application.zip -DestinationPath c:\inetpub\wwwroot
+c:\Windows\Sysnative\WindowsPowerShell\v1.0\powershell.exe -Command Expand-Archive -LiteralPath c:\inetpub\wwwroot\application.zip -DestinationPath c:\inetpub\wwwroot
 set FOLDER=%HOMEDRIVE%\temp\CodeDeployExample
 
 if exist %FOLDER% (
