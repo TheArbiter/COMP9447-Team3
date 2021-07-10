@@ -1,0 +1,28 @@
+for the love of god work!
+execution #5: logs:
+basically a lambda IAM issue
+
+
+there are high or medium alerts.. failing the build
+{
+    "StatusCode": 200,
+    "FunctionError": "Unhandled",
+    "ExecutedVersion": "$LATEST"
+}
+LAMBDA_SUCCEDED
+
+[Container] 2021/07/10 07:36:24 Command did not exit successfully if [ $high_risk_dependency -gt 0 ]; then
+  echo "there are high or medium alerts.. failing the build"
+  aws lambda invoke --function-name sca-lambda-nv --payload file://payload.json dependency-check-report.json && echo "LAMBDA_SUCCEDED" || echo "LAMBDA_FAILED";
+  exit 1; 
+fi
+ exit status 1
+[Container] 2021/07/10 07:36:24 Phase complete: POST_BUILD State: FAILED
+[Container] 2021/07/10 07:36:24 Phase context status code: COMMAND_EXECUTION_ERROR Message: Error while executing command: if [ $high_risk_dependency -gt 0 ]; then
+  echo "there are high or medium alerts.. failing the build"
+  aws lambda invoke --function-name sca-lambda-nv --payload file://payload.json dependency-check-report.json && echo "LAMBDA_SUCCEDED" || echo "LAMBDA_FAILED";
+  exit 1; 
+fi
+. Reason: exit status 1
+[Container] 2021/07/10 07:36:24 Phase complete: UPLOAD_ARTIFACTS State: SUCCEEDED
+[Container] 2021/07/10 07:36:24 Phase context status code:  Message: 
