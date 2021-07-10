@@ -1,0 +1,1 @@
+lambda didnt have access to S3 bucket due to permissions issue
