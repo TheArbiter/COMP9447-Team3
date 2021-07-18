@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/TheArbiter/COMP9447-Team3#readme",
   "dependencies": {
+    "gry": "^6.0.0",
     "package.json": "^2.0.1"
   }
 }
