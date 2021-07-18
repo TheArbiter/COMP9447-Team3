@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/TheArbiter/COMP9447-Team3/issues"
   },
-  "homepage": "https://github.com/TheArbiter/COMP9447-Team3#readme"
+  "homepage": "https://github.com/TheArbiter/COMP9447-Team3#readme",
+  "dependencies": {
+    "package.json": "^2.0.1"
+  }
 }
