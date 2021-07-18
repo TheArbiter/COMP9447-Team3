@@ -1,0 +1,1963 @@
+---
+Resources:
+  NewVPC3BA3B625:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+      Tags:
+      - Key: Name
+        Value: CdkStackALBEksBg/NewVPC
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/Resource
+  NewVPCPublicSubnet1Subnet7405CBEB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.0.0/19
+      VpcId:
+        Ref: NewVPC3BA3B625
+      AvailabilityZone: ap-southeast-2a
+      MapPublicIpOnLaunch: true
+      Tags:
+      - Key: Name
+        Value: CdkStackALBEksBg/NewVPC/PublicSubnet1
+      - Key: aws-cdk:subnet-name
+        Value: Public
+      - Key: aws-cdk:subnet-type
+        Value: Public
+      - Key: kubernetes.io/role/elb
+        Value: '1'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PublicSubnet1/Subnet
+  NewVPCPublicSubnet1RouteTableF5A4EDF9:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: NewVPC3BA3B625
+      Tags:
+      - Key: Name
+        Value: CdkStackALBEksBg/NewVPC/PublicSubnet1
+      - Key: kubernetes.io/role/elb
+        Value: '1'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PublicSubnet1/RouteTable
+  NewVPCPublicSubnet1RouteTableAssociation9C866C48:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: NewVPCPublicSubnet1RouteTableF5A4EDF9
+      SubnetId:
+        Ref: NewVPCPublicSubnet1Subnet7405CBEB
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PublicSubnet1/RouteTableAssociation
+  NewVPCPublicSubnet1DefaultRoute959E6B0C:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: NewVPCPublicSubnet1RouteTableF5A4EDF9
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: NewVPCIGW92CD7922
+    DependsOn:
+    - NewVPCVPCGWDD5C641A
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PublicSubnet1/DefaultRoute
+  NewVPCPublicSubnet1EIP0B4C7D61:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      Tags:
+      - Key: Name
+        Value: CdkStackALBEksBg/NewVPC/PublicSubnet1
+      - Key: kubernetes.io/role/elb
+        Value: '1'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PublicSubnet1/EIP
+  NewVPCPublicSubnet1NATGateway57E80762:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId:
+        Fn::GetAtt:
+        - NewVPCPublicSubnet1EIP0B4C7D61
+        - AllocationId
+      SubnetId:
+        Ref: NewVPCPublicSubnet1Subnet7405CBEB
+      Tags:
+      - Key: Name
+        Value: CdkStackALBEksBg/NewVPC/PublicSubnet1
+      - Key: kubernetes.io/role/elb
+        Value: '1'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PublicSubnet1/NATGateway
+  NewVPCPublicSubnet2Subnet03805944:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.32.0/19
+      VpcId:
+        Ref: NewVPC3BA3B625
+      AvailabilityZone: ap-southeast-2b
+      MapPublicIpOnLaunch: true
+      Tags:
+      - Key: Name
+        Value: CdkStackALBEksBg/NewVPC/PublicSubnet2
+      - Key: aws-cdk:subnet-name
+        Value: Public
+      - Key: aws-cdk:subnet-type
+        Value: Public
+      - Key: kubernetes.io/role/elb
+        Value: '1'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PublicSubnet2/Subnet
+  NewVPCPublicSubnet2RouteTableE1FF66C6:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: NewVPC3BA3B625
+      Tags:
+      - Key: Name
+        Value: CdkStackALBEksBg/NewVPC/PublicSubnet2
+      - Key: kubernetes.io/role/elb
+        Value: '1'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PublicSubnet2/RouteTable
+  NewVPCPublicSubnet2RouteTableAssociation66A2286C:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: NewVPCPublicSubnet2RouteTableE1FF66C6
+      SubnetId:
+        Ref: NewVPCPublicSubnet2Subnet03805944
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PublicSubnet2/RouteTableAssociation
+  NewVPCPublicSubnet2DefaultRouteA789C29A:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: NewVPCPublicSubnet2RouteTableE1FF66C6
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: NewVPCIGW92CD7922
+    DependsOn:
+    - NewVPCVPCGWDD5C641A
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PublicSubnet2/DefaultRoute
+  NewVPCPublicSubnet3Subnet78FE1A53:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.64.0/19
+      VpcId:
+        Ref: NewVPC3BA3B625
+      AvailabilityZone: ap-southeast-2c
+      MapPublicIpOnLaunch: true
+      Tags:
+      - Key: Name
+        Value: CdkStackALBEksBg/NewVPC/PublicSubnet3
+      - Key: aws-cdk:subnet-name
+        Value: Public
+      - Key: aws-cdk:subnet-type
+        Value: Public
+      - Key: kubernetes.io/role/elb
+        Value: '1'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PublicSubnet3/Subnet
+  NewVPCPublicSubnet3RouteTable3F42DE66:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: NewVPC3BA3B625
+      Tags:
+      - Key: Name
+        Value: CdkStackALBEksBg/NewVPC/PublicSubnet3
+      - Key: kubernetes.io/role/elb
+        Value: '1'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PublicSubnet3/RouteTable
+  NewVPCPublicSubnet3RouteTableAssociationB383774A:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: NewVPCPublicSubnet3RouteTable3F42DE66
+      SubnetId:
+        Ref: NewVPCPublicSubnet3Subnet78FE1A53
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PublicSubnet3/RouteTableAssociation
+  NewVPCPublicSubnet3DefaultRoute75FFD45A:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: NewVPCPublicSubnet3RouteTable3F42DE66
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: NewVPCIGW92CD7922
+    DependsOn:
+    - NewVPCVPCGWDD5C641A
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PublicSubnet3/DefaultRoute
+  NewVPCPrivateSubnet1SubnetF9012E60:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.96.0/19
+      VpcId:
+        Ref: NewVPC3BA3B625
+      AvailabilityZone: ap-southeast-2a
+      MapPublicIpOnLaunch: false
+      Tags:
+      - Key: Name
+        Value: CdkStackALBEksBg/NewVPC/PrivateSubnet1
+      - Key: aws-cdk:subnet-name
+        Value: Private
+      - Key: aws-cdk:subnet-type
+        Value: Private
+      - Key: kubernetes.io/role/internal-elb
+        Value: '1'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PrivateSubnet1/Subnet
+  NewVPCPrivateSubnet1RouteTable3786B9E4:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: NewVPC3BA3B625
+      Tags:
+      - Key: Name
+        Value: CdkStackALBEksBg/NewVPC/PrivateSubnet1
+      - Key: kubernetes.io/role/internal-elb
+        Value: '1'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PrivateSubnet1/RouteTable
+  NewVPCPrivateSubnet1RouteTableAssociation6B507C08:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: NewVPCPrivateSubnet1RouteTable3786B9E4
+      SubnetId:
+        Ref: NewVPCPrivateSubnet1SubnetF9012E60
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PrivateSubnet1/RouteTableAssociation
+  NewVPCPrivateSubnet1DefaultRoute74F0B937:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: NewVPCPrivateSubnet1RouteTable3786B9E4
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: NewVPCPublicSubnet1NATGateway57E80762
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PrivateSubnet1/DefaultRoute
+  NewVPCPrivateSubnet2Subnet54E5665F:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.128.0/19
+      VpcId:
+        Ref: NewVPC3BA3B625
+      AvailabilityZone: ap-southeast-2b
+      MapPublicIpOnLaunch: false
+      Tags:
+      - Key: Name
+        Value: CdkStackALBEksBg/NewVPC/PrivateSubnet2
+      - Key: aws-cdk:subnet-name
+        Value: Private
+      - Key: aws-cdk:subnet-type
+        Value: Private
+      - Key: kubernetes.io/role/internal-elb
+        Value: '1'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PrivateSubnet2/Subnet
+  NewVPCPrivateSubnet2RouteTable0920AB50:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: NewVPC3BA3B625
+      Tags:
+      - Key: Name
+        Value: CdkStackALBEksBg/NewVPC/PrivateSubnet2
+      - Key: kubernetes.io/role/internal-elb
+        Value: '1'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PrivateSubnet2/RouteTable
+  NewVPCPrivateSubnet2RouteTableAssociation12945271:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: NewVPCPrivateSubnet2RouteTable0920AB50
+      SubnetId:
+        Ref: NewVPCPrivateSubnet2Subnet54E5665F
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PrivateSubnet2/RouteTableAssociation
+  NewVPCPrivateSubnet2DefaultRoute585BCE8B:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: NewVPCPrivateSubnet2RouteTable0920AB50
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: NewVPCPublicSubnet1NATGateway57E80762
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PrivateSubnet2/DefaultRoute
+  NewVPCPrivateSubnet3Subnet59B4C7C1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.160.0/19
+      VpcId:
+        Ref: NewVPC3BA3B625
+      AvailabilityZone: ap-southeast-2c
+      MapPublicIpOnLaunch: false
+      Tags:
+      - Key: Name
+        Value: CdkStackALBEksBg/NewVPC/PrivateSubnet3
+      - Key: aws-cdk:subnet-name
+        Value: Private
+      - Key: aws-cdk:subnet-type
+        Value: Private
+      - Key: kubernetes.io/role/internal-elb
+        Value: '1'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PrivateSubnet3/Subnet
+  NewVPCPrivateSubnet3RouteTable73EBE15A:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: NewVPC3BA3B625
+      Tags:
+      - Key: Name
+        Value: CdkStackALBEksBg/NewVPC/PrivateSubnet3
+      - Key: kubernetes.io/role/internal-elb
+        Value: '1'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PrivateSubnet3/RouteTable
+  NewVPCPrivateSubnet3RouteTableAssociationD238418C:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: NewVPCPrivateSubnet3RouteTable73EBE15A
+      SubnetId:
+        Ref: NewVPCPrivateSubnet3Subnet59B4C7C1
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PrivateSubnet3/RouteTableAssociation
+  NewVPCPrivateSubnet3DefaultRoute075BA245:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: NewVPCPrivateSubnet3RouteTable73EBE15A
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: NewVPCPublicSubnet1NATGateway57E80762
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/PrivateSubnet3/DefaultRoute
+  NewVPCIGW92CD7922:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+      - Key: Name
+        Value: CdkStackALBEksBg/NewVPC
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/IGW
+  NewVPCVPCGWDD5C641A:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId:
+        Ref: NewVPC3BA3B625
+      InternetGatewayId:
+        Ref: NewVPCIGW92CD7922
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/NewVPC/VPCGW
+  AdminRole38563C57:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Principal:
+            AWS:
+              Fn::Join:
+              - ''
+              - - 'arn:'
+                - Ref: AWS::Partition
+                - ":iam::763449422086:root"
+        Version: '2012-10-17'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/AdminRole/Resource
+  ClusterRoleFA261979:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service: eks.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+      - Fn::Join:
+        - ''
+        - - 'arn:'
+          - Ref: AWS::Partition
+          - ":iam::aws:policy/AmazonEKSClusterPolicy"
+      - Fn::Join:
+        - ''
+        - - 'arn:'
+          - Ref: AWS::Partition
+          - ":iam::aws:policy/AmazonEKSServicePolicy"
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/Cluster/Role/Resource
+  ClusterControlPlaneSecurityGroupD274242C:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: EKS Control Plane Security Group
+      SecurityGroupEgress:
+      - CidrIp: 0.0.0.0/0
+        Description: Allow all outbound traffic by default
+        IpProtocol: "-1"
+      VpcId:
+        Ref: NewVPC3BA3B625
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/Cluster/ControlPlaneSecurityGroup/Resource
+  ClusterControlPlaneSecurityGroupfromCdkStackALBEksBgClusterDefaultCapacityInstanceSecurityGroupFDB0994E4432F11760B:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      Description: from CdkStackALBEksBgClusterDefaultCapacityInstanceSecurityGroupFDB0994E:443
+      FromPort: 443
+      GroupId:
+        Fn::GetAtt:
+        - ClusterControlPlaneSecurityGroupD274242C
+        - GroupId
+      SourceSecurityGroupId:
+        Fn::GetAtt:
+        - ClusterDefaultCapacityInstanceSecurityGroup8FDF4D48
+        - GroupId
+      ToPort: 443
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/Cluster/ControlPlaneSecurityGroup/from CdkStackALBEksBgClusterDefaultCapacityInstanceSecurityGroupFDB0994E:443
+  ClusterCreationRole360249B6:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Principal:
+            AWS:
+            - Fn::GetAtt:
+              - awscdkawseksClusterResourceProviderNestedStackawscdkawseksClusterResourceProviderNestedStackResource9827C454
+              - Outputs.CdkStackALBEksBgawscdkawseksClusterResourceProviderOnEventHandlerServiceRoleF3FA6F89Arn
+            - Fn::GetAtt:
+              - awscdkawseksClusterResourceProviderNestedStackawscdkawseksClusterResourceProviderNestedStackResource9827C454
+              - Outputs.CdkStackALBEksBgawscdkawseksClusterResourceProviderIsCompleteHandlerServiceRoleCA4AB1DFArn
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Principal:
+            AWS:
+              Fn::GetAtt:
+              - awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B
+              - Outputs.CdkStackALBEksBgawscdkawseksKubectlProviderHandlerServiceRole78DEB8D1Arn
+        Version: '2012-10-17'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/Cluster/Resource/CreationRole/Resource
+  ClusterCreationRoleDefaultPolicyE8BDFC7B:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+        - Action: iam:PassRole
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - ClusterRoleFA261979
+            - Arn
+        - Action: ec2:DescribeSubnets
+          Effect: Allow
+          Resource: "*"
+        - Action:
+          - eks:CreateCluster
+          - eks:DescribeCluster
+          - eks:DeleteCluster
+          - eks:UpdateClusterVersion
+          - eks:UpdateClusterConfig
+          - eks:CreateFargateProfile
+          Effect: Allow
+          Resource:
+          - "*"
+        - Action:
+          - eks:DescribeFargateProfile
+          - eks:DeleteFargateProfile
+          Effect: Allow
+          Resource: "*"
+        - Action: iam:GetRole
+          Effect: Allow
+          Resource: "*"
+        - Action: iam:CreateServiceLinkedRole
+          Effect: Allow
+          Resource: "*"
+        Version: '2012-10-17'
+      PolicyName: ClusterCreationRoleDefaultPolicyE8BDFC7B
+      Roles:
+      - Ref: ClusterCreationRole360249B6
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/Cluster/Resource/CreationRole/DefaultPolicy/Resource
+  Cluster9EE0221C:
+    Type: Custom::AWSCDK-EKS-Cluster
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+        - awscdkawseksClusterResourceProviderNestedStackawscdkawseksClusterResourceProviderNestedStackResource9827C454
+        - Outputs.CdkStackALBEksBgawscdkawseksClusterResourceProviderframeworkonEvent452F10C1Arn
+      Config:
+        roleArn:
+          Fn::GetAtt:
+          - ClusterRoleFA261979
+          - Arn
+        resourcesVpcConfig:
+          securityGroupIds:
+          - Fn::GetAtt:
+            - ClusterControlPlaneSecurityGroupD274242C
+            - GroupId
+          subnetIds:
+          - Ref: NewVPCPublicSubnet1Subnet7405CBEB
+          - Ref: NewVPCPublicSubnet2Subnet03805944
+          - Ref: NewVPCPublicSubnet3Subnet78FE1A53
+          - Ref: NewVPCPrivateSubnet1SubnetF9012E60
+          - Ref: NewVPCPrivateSubnet2Subnet54E5665F
+          - Ref: NewVPCPrivateSubnet3Subnet59B4C7C1
+      AssumeRoleArn:
+        Fn::GetAtt:
+        - ClusterCreationRole360249B6
+        - Arn
+    DependsOn:
+    - ClusterCreationRoleDefaultPolicyE8BDFC7B
+    - ClusterCreationRole360249B6
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/Cluster/Resource/Resource/Default
+  ClusterAwsAuthmanifestFE51F8AE:
+    Type: Custom::AWSCDK-EKS-KubernetesResource
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+        - awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B
+        - Outputs.CdkStackALBEksBgawscdkawseksKubectlProviderframeworkonEvent250D2218Arn
+      Manifest:
+        Fn::Join:
+        - ''
+        - - '[{"apiVersion":"v1","kind":"ConfigMap","metadata":{"name":"aws-auth","namespace":"kube-system"},"data":{"mapRoles":"[{\"rolearn\":\"'
+          - Fn::GetAtt:
+            - AdminRole38563C57
+            - Arn
+          - \",\"username\":\"
+          - Fn::GetAtt:
+            - AdminRole38563C57
+            - Arn
+          - \",\"groups\":[\"system:masters\"]},{\"rolearn\":\"
+          - Fn::GetAtt:
+            - ClusterDefaultCapacityInstanceRole3E209969
+            - Arn
+          - \",\"username\":\"system:node:{{EC2PrivateDNSName}}\",\"groups\":[\"system:bootstrappers\",\"system:nodes\"]},{\"rolearn\":\"
+          - Fn::GetAtt:
+            - MyProjectRole9BBE5233
+            - Arn
+          - \",\"username\":\"
+          - Fn::GetAtt:
+            - MyProjectRole9BBE5233
+            - Arn
+          - \",\"groups\":[\"system:masters\"]},{\"rolearn\":\"
+          - Fn::GetAtt:
+            - MyProject2Role640CD8C0
+            - Arn
+          - \",\"username\":\"
+          - Fn::GetAtt:
+            - MyProject2Role640CD8C0
+            - Arn
+          - \",\"groups\":[\"system:masters\"]}]","mapUsers":"[]","mapAccounts":"[]"}}]
+      ClusterName:
+        Ref: Cluster9EE0221C
+      RoleArn:
+        Fn::GetAtt:
+        - ClusterCreationRole360249B6
+        - Arn
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/Cluster/AwsAuth/manifest/Resource/Default
+  ClusterDefaultCapacityInstanceSecurityGroup8FDF4D48:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: CdkStackALBEksBg/Cluster/DefaultCapacity/InstanceSecurityGroup
+      SecurityGroupEgress:
+      - CidrIp: 0.0.0.0/0
+        Description: Allow all outbound traffic by default
+        IpProtocol: "-1"
+      Tags:
+      - Key: Name
+        Value: CdkStackALBEksBg/Cluster/DefaultCapacity
+      - Key:
+          Fn::Join:
+          - ''
+          - - kubernetes.io/cluster/
+            - Ref: Cluster9EE0221C
+        Value: owned
+      VpcId:
+        Ref: NewVPC3BA3B625
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/Cluster/DefaultCapacity/InstanceSecurityGroup/Resource
+  ? ClusterDefaultCapacityInstanceSecurityGroupfromCdkStackALBEksBgClusterDefaultCapacityInstanceSecurityGroupFDB0994EALLTRAFFIC94300FB8
+  : Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: "-1"
+      Description: from CdkStackALBEksBgClusterDefaultCapacityInstanceSecurityGroupFDB0994E:ALL
+        TRAFFIC
+      GroupId:
+        Fn::GetAtt:
+        - ClusterDefaultCapacityInstanceSecurityGroup8FDF4D48
+        - GroupId
+      SourceSecurityGroupId:
+        Fn::GetAtt:
+        - ClusterDefaultCapacityInstanceSecurityGroup8FDF4D48
+        - GroupId
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/Cluster/DefaultCapacity/InstanceSecurityGroup/from
+        CdkStackALBEksBgClusterDefaultCapacityInstanceSecurityGroupFDB0994E:ALL TRAFFIC
+  ClusterDefaultCapacityInstanceSecurityGroupfromCdkStackALBEksBgClusterControlPlaneSecurityGroup59E958EC443EBA3899F:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      Description: from CdkStackALBEksBgClusterControlPlaneSecurityGroup59E958EC:443
+      FromPort: 443
+      GroupId:
+        Fn::GetAtt:
+        - ClusterDefaultCapacityInstanceSecurityGroup8FDF4D48
+        - GroupId
+      SourceSecurityGroupId:
+        Fn::GetAtt:
+        - ClusterControlPlaneSecurityGroupD274242C
+        - GroupId
+      ToPort: 443
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/Cluster/DefaultCapacity/InstanceSecurityGroup/from
+        CdkStackALBEksBgClusterControlPlaneSecurityGroup59E958EC:443
+  ClusterDefaultCapacityInstanceSecurityGroupfromCdkStackALBEksBgClusterControlPlaneSecurityGroup59E958EC102565535CBDBFE08:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      Description: from CdkStackALBEksBgClusterControlPlaneSecurityGroup59E958EC:1025-65535
+      FromPort: 1025
+      GroupId:
+        Fn::GetAtt:
+        - ClusterDefaultCapacityInstanceSecurityGroup8FDF4D48
+        - GroupId
+      SourceSecurityGroupId:
+        Fn::GetAtt:
+        - ClusterControlPlaneSecurityGroupD274242C
+        - GroupId
+      ToPort: 65535
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/Cluster/DefaultCapacity/InstanceSecurityGroup/from
+        CdkStackALBEksBgClusterControlPlaneSecurityGroup59E958EC:1025-65535
+  ClusterDefaultCapacityInstanceRole3E209969:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service: ec2.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+      - Fn::Join:
+        - ''
+        - - 'arn:'
+          - Ref: AWS::Partition
+          - ":iam::aws:policy/AmazonEKSWorkerNodePolicy"
+      - Fn::Join:
+        - ''
+        - - 'arn:'
+          - Ref: AWS::Partition
+          - ":iam::aws:policy/AmazonEKS_CNI_Policy"
+      - Fn::Join:
+        - ''
+        - - 'arn:'
+          - Ref: AWS::Partition
+          - ":iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+      Tags:
+      - Key: Name
+        Value: CdkStackALBEksBg/Cluster/DefaultCapacity
+      - Key:
+          Fn::Join:
+          - ''
+          - - kubernetes.io/cluster/
+            - Ref: Cluster9EE0221C
+        Value: owned
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/Cluster/DefaultCapacity/InstanceRole/Resource
+  ClusterDefaultCapacityInstanceProfile70387741:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+      - Ref: ClusterDefaultCapacityInstanceRole3E209969
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/Cluster/DefaultCapacity/InstanceProfile
+  ClusterDefaultCapacityLaunchConfig72790CF7:
+    Type: AWS::AutoScaling::LaunchConfiguration
+    Properties:
+      ImageId:
+        Ref: SsmParameterValueawsserviceeksoptimizedami114amazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter
+      InstanceType: m5.large
+      IamInstanceProfile:
+        Ref: ClusterDefaultCapacityInstanceProfile70387741
+      SecurityGroups:
+      - Fn::GetAtt:
+        - ClusterDefaultCapacityInstanceSecurityGroup8FDF4D48
+        - GroupId
+      UserData:
+        Fn::Base64:
+          Fn::Join:
+          - ''
+          - - "#!/bin/bash\nset -o xtrace\n/etc/eks/bootstrap.sh "
+            - Ref: Cluster9EE0221C
+            - |2-
+               --kubelet-extra-args "--node-labels lifecycle=OnDemand" --use-max-pods true
+              /opt/aws/bin/cfn-signal --exit-code $? --stack CdkStackALBEksBg --resource ClusterDefaultCapacityASG00CC9431 --region ap-southeast-2
+    DependsOn:
+    - ClusterDefaultCapacityInstanceRole3E209969
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/Cluster/DefaultCapacity/LaunchConfig
+  ClusterDefaultCapacityASG00CC9431:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      MaxSize: '2'
+      MinSize: '2'
+      LaunchConfigurationName:
+        Ref: ClusterDefaultCapacityLaunchConfig72790CF7
+      Tags:
+      - Key: Name
+        PropagateAtLaunch: true
+        Value: CdkStackALBEksBg/Cluster/DefaultCapacity
+      - Key:
+          Fn::Join:
+          - ''
+          - - kubernetes.io/cluster/
+            - Ref: Cluster9EE0221C
+        PropagateAtLaunch: true
+        Value: owned
+      VPCZoneIdentifier:
+      - Ref: NewVPCPrivateSubnet1SubnetF9012E60
+      - Ref: NewVPCPrivateSubnet2Subnet54E5665F
+      - Ref: NewVPCPrivateSubnet3Subnet59B4C7C1
+    UpdatePolicy:
+      AutoScalingRollingUpdate:
+        WaitOnResourceSignals: false
+        PauseTime: PT0S
+        SuspendProcesses:
+        - HealthCheck
+        - ReplaceUnhealthy
+        - AZRebalance
+        - AlarmNotification
+        - ScheduledActions
+      AutoScalingScheduledAction:
+        IgnoreUnmodifiedGroupSizeProperties: true
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/Cluster/DefaultCapacity/ASG
+  awscdkawseksClusterResourceProviderNestedStackawscdkawseksClusterResourceProviderNestedStackResource9827C454:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL:
+        Fn::Join:
+        - ''
+        - - https://s3.ap-southeast-2.
+          - Ref: AWS::URLSuffix
+          - "/"
+          - Ref: AssetParameters6d207d68ce75627eef7c78d5038e195084944eb6126a4d9b6788767fed72d214S3BucketF6C0889F
+          - "/"
+          - Fn::Select:
+            - 0
+            - Fn::Split:
+              - "||"
+              - Ref: AssetParameters6d207d68ce75627eef7c78d5038e195084944eb6126a4d9b6788767fed72d214S3VersionKey308606BF
+          - Fn::Select:
+            - 1
+            - Fn::Split:
+              - "||"
+              - Ref: AssetParameters6d207d68ce75627eef7c78d5038e195084944eb6126a4d9b6788767fed72d214S3VersionKey308606BF
+      Parameters:
+        referencetoCdkStackALBEksBgAssetParametersf8180bff2a23be3f5a1fee126adab8881214d211868a8b0adc8ba767dd9d430cS3Bucket867B471ERef:
+          Ref: AssetParametersf8180bff2a23be3f5a1fee126adab8881214d211868a8b0adc8ba767dd9d430cS3Bucket78325ACE
+        ? referencetoCdkStackALBEksBgAssetParametersf8180bff2a23be3f5a1fee126adab8881214d211868a8b0adc8ba767dd9d430cS3VersionKey014EE8C1Ref
+        : Ref: AssetParametersf8180bff2a23be3f5a1fee126adab8881214d211868a8b0adc8ba767dd9d430cS3VersionKey5DEF2AA3
+        referencetoCdkStackALBEksBgAssetParametersf587c683163dea7b70b883fe8f803ffe0622a40e05b3766e08ffa9ed25caabc9S3Bucket27D8A69ARef:
+          Ref: AssetParametersf587c683163dea7b70b883fe8f803ffe0622a40e05b3766e08ffa9ed25caabc9S3Bucket6B4B2C9B
+        ? referencetoCdkStackALBEksBgAssetParametersf587c683163dea7b70b883fe8f803ffe0622a40e05b3766e08ffa9ed25caabc9S3VersionKeyE8ABDA11Ref
+        : Ref: AssetParametersf587c683163dea7b70b883fe8f803ffe0622a40e05b3766e08ffa9ed25caabc9S3VersionKey8971BB19
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/@aws-cdk--aws-eks.ClusterResourceProvider.NestedStack/@aws-cdk--aws-eks.ClusterResourceProvider.NestedStackResource
+  awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL:
+        Fn::Join:
+        - ''
+        - - https://s3.ap-southeast-2.
+          - Ref: AWS::URLSuffix
+          - "/"
+          - Ref: AssetParameters1c42d31e41f9a3c731913650a3321cf296f98eaa5c5995839adca34de9ba2b27S3Bucket1E581517
+          - "/"
+          - Fn::Select:
+            - 0
+            - Fn::Split:
+              - "||"
+              - Ref: AssetParameters1c42d31e41f9a3c731913650a3321cf296f98eaa5c5995839adca34de9ba2b27S3VersionKeyC0A4C22D
+          - Fn::Select:
+            - 1
+            - Fn::Split:
+              - "||"
+              - Ref: AssetParameters1c42d31e41f9a3c731913650a3321cf296f98eaa5c5995839adca34de9ba2b27S3VersionKeyC0A4C22D
+      Parameters:
+        referencetoCdkStackALBEksBgAssetParameters809b8ac7e88704d37fac32bbd5cfa56be7ea4d3e9ddb682d216c4b6868cd8fa2S3Bucket79225B70Ref:
+          Ref: AssetParameters809b8ac7e88704d37fac32bbd5cfa56be7ea4d3e9ddb682d216c4b6868cd8fa2S3Bucket8A1A4BE8
+        ? referencetoCdkStackALBEksBgAssetParameters809b8ac7e88704d37fac32bbd5cfa56be7ea4d3e9ddb682d216c4b6868cd8fa2S3VersionKeyEF7F28B1Ref
+        : Ref: AssetParameters809b8ac7e88704d37fac32bbd5cfa56be7ea4d3e9ddb682d216c4b6868cd8fa2S3VersionKeyB580A234
+        referencetoCdkStackALBEksBgAssetParametersf587c683163dea7b70b883fe8f803ffe0622a40e05b3766e08ffa9ed25caabc9S3Bucket27D8A69ARef:
+          Ref: AssetParametersf587c683163dea7b70b883fe8f803ffe0622a40e05b3766e08ffa9ed25caabc9S3Bucket6B4B2C9B
+        ? referencetoCdkStackALBEksBgAssetParametersf587c683163dea7b70b883fe8f803ffe0622a40e05b3766e08ffa9ed25caabc9S3VersionKeyE8ABDA11Ref
+        : Ref: AssetParametersf587c683163dea7b70b883fe8f803ffe0622a40e05b3766e08ffa9ed25caabc9S3VersionKey8971BB19
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/@aws-cdk--aws-eks.KubectlProvider.NestedStack/@aws-cdk--aws-eks.KubectlProvider.NestedStackResource
+  EcrRepoBB83A592:
+    Type: AWS::ECR::Repository
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/EcrRepo/Resource
+  CodeCommitRepoDC6A41F9:
+    Type: AWS::CodeCommit::Repository
+    Properties:
+      RepositoryName: CdkStackALBEksBg-repo
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/CodeCommitRepo/Resource
+  CodeCommitRepoCdkStackALBEksBgMyPipeline6DBE4AB5EventRuleF13BEB5E:
+    Type: AWS::Events::Rule
+    Properties:
+      EventPattern:
+        source:
+        - aws.codecommit
+        resources:
+        - Fn::GetAtt:
+          - CodeCommitRepoDC6A41F9
+          - Arn
+        detail-type:
+        - CodeCommit Repository State Change
+        detail:
+          event:
+          - referenceCreated
+          - referenceUpdated
+          referenceName:
+          - master
+      State: ENABLED
+      Targets:
+      - Arn:
+          Fn::Join:
+          - ''
+          - - 'arn:'
+            - Ref: AWS::Partition
+            - ":codepipeline:ap-southeast-2:763449422086:"
+            - Ref: MyPipelineAED38ECF
+        Id: Target0
+        RoleArn:
+          Fn::GetAtt:
+          - MyPipelineEventsRoleFAB99F32
+          - Arn
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/CodeCommitRepo/CdkStackALBEksBgMyPipeline6DBE4AB5EventRule/Resource
+  CodeCommitRepoOnCommit67116A74:
+    Type: AWS::Events::Rule
+    Properties:
+      EventPattern:
+        source:
+        - aws.codecommit
+        resources:
+        - Fn::GetAtt:
+          - CodeCommitRepoDC6A41F9
+          - Arn
+        detail-type:
+        - CodeCommit Repository State Change
+        detail:
+          event:
+          - referenceCreated
+          - referenceUpdated
+      State: ENABLED
+      Targets:
+      - Arn:
+          Fn::GetAtt:
+          - MyProject39F7B0AE
+          - Arn
+        Id: Target0
+        RoleArn:
+          Fn::GetAtt:
+          - OnCommitEventEventsRole4B7E4A42
+          - Arn
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/CodeCommitRepo/OnCommit/Resource
+  MyProjectRole9BBE5233:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service: codebuild.amazonaws.com
+        Version: '2012-10-17'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/MyProject/Role/Resource
+  MyProjectRoleDefaultPolicyB19B7C29:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+        - Action: codecommit:GitPull
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - CodeCommitRepoDC6A41F9
+            - Arn
+        - Action:
+          - ecr:BatchCheckLayerAvailability
+          - ecr:GetDownloadUrlForLayer
+          - ecr:BatchGetImage
+          Effect: Allow
+          Resource:
+            Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ":ecr:ap-southeast-2:763449422086:repository/aws-cdk/assets"
+        - Action: ecr:GetAuthorizationToken
+          Effect: Allow
+          Resource: "*"
+        - Action:
+          - logs:CreateLogGroup
+          - logs:CreateLogStream
+          - logs:PutLogEvents
+          Effect: Allow
+          Resource:
+          - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ":logs:ap-southeast-2:763449422086:log-group:/aws/codebuild/"
+              - Ref: MyProject39F7B0AE
+          - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ":logs:ap-southeast-2:763449422086:log-group:/aws/codebuild/"
+              - Ref: MyProject39F7B0AE
+              - ":*"
+        - Action:
+          - s3:GetObject*
+          - s3:GetBucket*
+          - s3:List*
+          - s3:DeleteObject*
+          - s3:PutObject*
+          - s3:Abort*
+          Effect: Allow
+          Resource:
+          - Fn::GetAtt:
+            - MyPipelineArtifactsBucket727923DD
+            - Arn
+          - Fn::Join:
+            - ''
+            - - Fn::GetAtt:
+                - MyPipelineArtifactsBucket727923DD
+                - Arn
+              - "/*"
+        - Action:
+          - kms:Decrypt
+          - kms:DescribeKey
+          - kms:Encrypt
+          - kms:ReEncrypt*
+          - kms:GenerateDataKey*
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - MyPipelineArtifactsBucketEncryptionKey8BF0A7F3
+            - Arn
+        - Action:
+          - kms:Decrypt
+          - kms:Encrypt
+          - kms:ReEncrypt*
+          - kms:GenerateDataKey*
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - MyPipelineArtifactsBucketEncryptionKey8BF0A7F3
+            - Arn
+        - Action:
+          - ecr:BatchCheckLayerAvailability
+          - ecr:GetDownloadUrlForLayer
+          - ecr:BatchGetImage
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - EcrRepoBB83A592
+            - Arn
+        - Action:
+          - ecr:PutImage
+          - ecr:InitiateLayerUpload
+          - ecr:UploadLayerPart
+          - ecr:CompleteLayerUpload
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - EcrRepoBB83A592
+            - Arn
+        - Action: eks:DescribeCluster
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - Cluster9EE0221C
+            - Arn
+        Version: '2012-10-17'
+      PolicyName: MyProjectRoleDefaultPolicyB19B7C29
+      Roles:
+      - Ref: MyProjectRole9BBE5233
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/MyProject/Role/DefaultPolicy/Resource
+  MyProject39F7B0AE:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Artifacts:
+        Type: NO_ARTIFACTS
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        EnvironmentVariables:
+        - Name: CLUSTER_NAME
+          Type: PLAINTEXT
+          Value:
+            Ref: Cluster9EE0221C
+        - Name: ECR_REPO_URI
+          Type: PLAINTEXT
+          Value:
+            Fn::Join:
+            - ''
+            - - Fn::Select:
+                - 4
+                - Fn::Split:
+                  - ":"
+                  - Fn::GetAtt:
+                    - EcrRepoBB83A592
+                    - Arn
+              - ".dkr.ecr."
+              - Fn::Select:
+                - 3
+                - Fn::Split:
+                  - ":"
+                  - Fn::GetAtt:
+                    - EcrRepoBB83A592
+                    - Arn
+              - "."
+              - Ref: AWS::URLSuffix
+              - "/"
+              - Ref: EcrRepoBB83A592
+        Image:
+          Fn::Join:
+          - ''
+          - - 763449422086.dkr.ecr.ap-southeast-2.
+            - Ref: AWS::URLSuffix
+            - "/aws-cdk/assets:05b5fca160e9c31e9355fe725ddc7f3f5831da37fb288796ac46534af4f123dd"
+        ImagePullCredentialsType: SERVICE_ROLE
+        PrivilegedMode: true
+        Type: LINUX_CONTAINER
+      ServiceRole:
+        Fn::GetAtt:
+        - MyProjectRole9BBE5233
+        - Arn
+      Source:
+        BuildSpec: |-
+          {
+            "version": "0.2",
+            "phases": {
+              "pre_build": {
+                "commands": [
+                  "env",
+                  "export TAG=${CODEBUILD_RESOLVED_SOURCE_VERSION}",
+                  "/usr/local/bin/entrypoint.sh"
+                ]
+              },
+              "build": {
+                "commands": [
+                  "cd flask-docker-app",
+                  "docker build -t $ECR_REPO_URI:$TAG .",
+                  "$(aws ecr get-login --no-include-email)",
+                  "docker push $ECR_REPO_URI:$TAG"
+                ]
+              },
+              "post_build": {
+                "commands": [
+                  "kubectl get nodes -n flask-alb",
+                  "kubectl get deploy -n flask-alb",
+                  "kubectl get svc -n flask-alb",
+                  "isDeployed=$(kubectl get deploy -n flask-alb -o json | jq '.items[0]')",
+                  "deploy8080=$(kubectl get svc -n flask-alb -o wide | grep 8080: | tr ' ' '\n' | grep app= | sed 's/app=//g')",
+                  "echo $isDeployed $deploy8080",
+                  "if [[ \"$isDeployed\" == \"null\" ]]; then kubectl apply -f k8s/flaskALBBlue.yaml && kubectl apply -f k8s/flaskALBGreen.yaml; else kubectl set image deployment/$deploy8080 -n flask-alb flask=$ECR_REPO_URI:$TAG; fi",
+                  "kubectl get deploy -n flask-alb",
+                  "kubectl get svc -n flask-alb"
+                ]
+              }
+            }
+          }
+        Location:
+          Fn::GetAtt:
+          - CodeCommitRepoDC6A41F9
+          - CloneUrlHttp
+        Type: CODECOMMIT
+      EncryptionKey:
+        Fn::GetAtt:
+        - MyPipelineArtifactsBucketEncryptionKey8BF0A7F3
+        - Arn
+      Name: CdkStackALBEksBg
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/MyProject/Resource
+  MyProject2Role640CD8C0:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service: codebuild.amazonaws.com
+        Version: '2012-10-17'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/MyProject2/Role/Resource
+  MyProject2RoleDefaultPolicyF6082200:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+        - Action: codecommit:GitPull
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - CodeCommitRepoDC6A41F9
+            - Arn
+        - Action:
+          - ecr:BatchCheckLayerAvailability
+          - ecr:GetDownloadUrlForLayer
+          - ecr:BatchGetImage
+          Effect: Allow
+          Resource:
+            Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ":ecr:ap-southeast-2:763449422086:repository/aws-cdk/assets"
+        - Action: ecr:GetAuthorizationToken
+          Effect: Allow
+          Resource: "*"
+        - Action:
+          - logs:CreateLogGroup
+          - logs:CreateLogStream
+          - logs:PutLogEvents
+          Effect: Allow
+          Resource:
+          - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ":logs:ap-southeast-2:763449422086:log-group:/aws/codebuild/"
+              - Ref: MyProject2B52B17CC
+          - Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ":logs:ap-southeast-2:763449422086:log-group:/aws/codebuild/"
+              - Ref: MyProject2B52B17CC
+              - ":*"
+        - Action:
+          - s3:GetObject*
+          - s3:GetBucket*
+          - s3:List*
+          Effect: Allow
+          Resource:
+          - Fn::GetAtt:
+            - MyPipelineArtifactsBucket727923DD
+            - Arn
+          - Fn::Join:
+            - ''
+            - - Fn::GetAtt:
+                - MyPipelineArtifactsBucket727923DD
+                - Arn
+              - "/*"
+        - Action:
+          - kms:Decrypt
+          - kms:DescribeKey
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - MyPipelineArtifactsBucketEncryptionKey8BF0A7F3
+            - Arn
+        - Action:
+          - kms:Decrypt
+          - kms:Encrypt
+          - kms:ReEncrypt*
+          - kms:GenerateDataKey*
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - MyPipelineArtifactsBucketEncryptionKey8BF0A7F3
+            - Arn
+        - Action:
+          - ecr:BatchCheckLayerAvailability
+          - ecr:GetDownloadUrlForLayer
+          - ecr:BatchGetImage
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - EcrRepoBB83A592
+            - Arn
+        - Action:
+          - ecr:PutImage
+          - ecr:InitiateLayerUpload
+          - ecr:UploadLayerPart
+          - ecr:CompleteLayerUpload
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - EcrRepoBB83A592
+            - Arn
+        - Action: eks:DescribeCluster
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - Cluster9EE0221C
+            - Arn
+        Version: '2012-10-17'
+      PolicyName: MyProject2RoleDefaultPolicyF6082200
+      Roles:
+      - Ref: MyProject2Role640CD8C0
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/MyProject2/Role/DefaultPolicy/Resource
+  MyProject2B52B17CC:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Artifacts:
+        Type: NO_ARTIFACTS
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        EnvironmentVariables:
+        - Name: CLUSTER_NAME
+          Type: PLAINTEXT
+          Value:
+            Ref: Cluster9EE0221C
+        - Name: ECR_REPO_URI
+          Type: PLAINTEXT
+          Value:
+            Fn::Join:
+            - ''
+            - - Fn::Select:
+                - 4
+                - Fn::Split:
+                  - ":"
+                  - Fn::GetAtt:
+                    - EcrRepoBB83A592
+                    - Arn
+              - ".dkr.ecr."
+              - Fn::Select:
+                - 3
+                - Fn::Split:
+                  - ":"
+                  - Fn::GetAtt:
+                    - EcrRepoBB83A592
+                    - Arn
+              - "."
+              - Ref: AWS::URLSuffix
+              - "/"
+              - Ref: EcrRepoBB83A592
+        Image:
+          Fn::Join:
+          - ''
+          - - 763449422086.dkr.ecr.ap-southeast-2.
+            - Ref: AWS::URLSuffix
+            - "/aws-cdk/assets:05b5fca160e9c31e9355fe725ddc7f3f5831da37fb288796ac46534af4f123dd"
+        ImagePullCredentialsType: SERVICE_ROLE
+        PrivilegedMode: true
+        Type: LINUX_CONTAINER
+      ServiceRole:
+        Fn::GetAtt:
+        - MyProject2Role640CD8C0
+        - Arn
+      Source:
+        BuildSpec: |-
+          {
+            "version": "0.2",
+            "phases": {
+              "pre_build": {
+                "commands": [
+                  "env",
+                  "export TAG=${CODEBUILD_RESOLVED_SOURCE_VERSION}",
+                  "/usr/local/bin/entrypoint.sh"
+                ]
+              },
+              "build": {
+                "commands": [
+                  "cd flask-docker-app",
+                  "echo \"Dummy Action\""
+                ]
+              },
+              "post_build": {
+                "commands": [
+                  "kubectl get nodes -n flask-alb",
+                  "kubectl get deploy -n flask-alb",
+                  "kubectl get svc -n flask-alb",
+                  "deploy8080=$(kubectl get svc -n flask-alb -o wide | grep ' 8080:' | tr ' ' '\n' | grep app= | sed 's/app=//g')",
+                  "deploy80=$(kubectl get svc -n flask-alb -o wide | grep ' 80:' | tr ' ' '\n' | grep app= | sed 's/app=//g')",
+                  "echo $deploy80 $deploy8080",
+                  "kubectl patch svc flask-svc-alb-blue -n flask-alb -p '{\"spec\":{\"selector\": {\"app\": \"'$deploy8080'\"}}}'",
+                  "kubectl patch svc flask-svc-alb-green -n flask-alb -p '{\"spec\":{\"selector\": {\"app\": \"'$deploy80'\"}}}'",
+                  "kubectl get deploy -n flask-alb",
+                  "kubectl get svc -n flask-alb"
+                ]
+              }
+            }
+          }
+        Location:
+          Fn::GetAtt:
+          - CodeCommitRepoDC6A41F9
+          - CloneUrlHttp
+        Type: CODECOMMIT
+      EncryptionKey:
+        Fn::GetAtt:
+        - MyPipelineArtifactsBucketEncryptionKey8BF0A7F3
+        - Arn
+      Name: CdkStackALBEksBg2
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/MyProject2/Resource
+  MyPipelineArtifactsBucketEncryptionKey8BF0A7F3:
+    Type: AWS::KMS::Key
+    Properties:
+      KeyPolicy:
+        Statement:
+        - Action:
+          - kms:Create*
+          - kms:Describe*
+          - kms:Enable*
+          - kms:List*
+          - kms:Put*
+          - kms:Update*
+          - kms:Revoke*
+          - kms:Disable*
+          - kms:Get*
+          - kms:Delete*
+          - kms:ScheduleKeyDeletion
+          - kms:CancelKeyDeletion
+          - kms:GenerateDataKey
+          - kms:TagResource
+          - kms:UntagResource
+          Effect: Allow
+          Principal:
+            AWS:
+              Fn::Join:
+              - ''
+              - - 'arn:'
+                - Ref: AWS::Partition
+                - ":iam::763449422086:root"
+          Resource: "*"
+        - Action:
+          - kms:Decrypt
+          - kms:DescribeKey
+          - kms:Encrypt
+          - kms:ReEncrypt*
+          - kms:GenerateDataKey*
+          Effect: Allow
+          Principal:
+            AWS:
+              Fn::GetAtt:
+              - MyPipelineRoleC0D47CA4
+              - Arn
+          Resource: "*"
+        - Action:
+          - kms:Decrypt
+          - kms:DescribeKey
+          - kms:Encrypt
+          - kms:ReEncrypt*
+          - kms:GenerateDataKey*
+          Effect: Allow
+          Principal:
+            AWS:
+              Fn::GetAtt:
+              - MyPipelineSourceCodeCommitCodePipelineActionRole3B3AD87E
+              - Arn
+          Resource: "*"
+        - Action:
+          - kms:Decrypt
+          - kms:DescribeKey
+          - kms:Encrypt
+          - kms:ReEncrypt*
+          - kms:GenerateDataKey*
+          Effect: Allow
+          Principal:
+            AWS:
+              Fn::GetAtt:
+              - MyProjectRole9BBE5233
+              - Arn
+          Resource: "*"
+        - Action:
+          - kms:Decrypt
+          - kms:Encrypt
+          - kms:ReEncrypt*
+          - kms:GenerateDataKey*
+          Effect: Allow
+          Principal:
+            AWS:
+              Fn::GetAtt:
+              - MyProjectRole9BBE5233
+              - Arn
+          Resource: "*"
+        - Action:
+          - kms:Decrypt
+          - kms:DescribeKey
+          Effect: Allow
+          Principal:
+            AWS:
+              Fn::GetAtt:
+              - MyProject2Role640CD8C0
+              - Arn
+          Resource: "*"
+        - Action:
+          - kms:Decrypt
+          - kms:Encrypt
+          - kms:ReEncrypt*
+          - kms:GenerateDataKey*
+          Effect: Allow
+          Principal:
+            AWS:
+              Fn::GetAtt:
+              - MyProject2Role640CD8C0
+              - Arn
+          Resource: "*"
+        Version: '2012-10-17'
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/MyPipeline/ArtifactsBucketEncryptionKey/Resource
+  MyPipelineArtifactsBucket727923DD:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+        - ServerSideEncryptionByDefault:
+            KMSMasterKeyID:
+              Fn::GetAtt:
+              - MyPipelineArtifactsBucketEncryptionKey8BF0A7F3
+              - Arn
+            SSEAlgorithm: aws:kms
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/MyPipeline/ArtifactsBucket/Resource
+  MyPipelineArtifactsBucketEncryptionKeyAlias9D4F8C59:
+    Type: AWS::KMS::Alias
+    Properties:
+      AliasName: alias/codepipeline-cdkstackalbeksbgmypipeline6dbe4ab5
+      TargetKeyId:
+        Fn::GetAtt:
+        - MyPipelineArtifactsBucketEncryptionKey8BF0A7F3
+        - Arn
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/MyPipeline/ArtifactsBucketEncryptionKeyAlias/Resource
+  MyPipelineRoleC0D47CA4:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service: codepipeline.amazonaws.com
+        Version: '2012-10-17'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/MyPipeline/Role/Resource
+  MyPipelineRoleDefaultPolicy34F09EFA:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+        - Action:
+          - s3:GetObject*
+          - s3:GetBucket*
+          - s3:List*
+          - s3:DeleteObject*
+          - s3:PutObject*
+          - s3:Abort*
+          Effect: Allow
+          Resource:
+          - Fn::GetAtt:
+            - MyPipelineArtifactsBucket727923DD
+            - Arn
+          - Fn::Join:
+            - ''
+            - - Fn::GetAtt:
+                - MyPipelineArtifactsBucket727923DD
+                - Arn
+              - "/*"
+        - Action:
+          - kms:Decrypt
+          - kms:DescribeKey
+          - kms:Encrypt
+          - kms:ReEncrypt*
+          - kms:GenerateDataKey*
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - MyPipelineArtifactsBucketEncryptionKey8BF0A7F3
+            - Arn
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - MyPipelineSourceCodeCommitCodePipelineActionRole3B3AD87E
+            - Arn
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - MyPipelineBuildAndDeployCodeBuildCodePipelineActionRoleA9E57E95
+            - Arn
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - MyPipelineApproveSwapBGApproveCodePipelineActionRole3538051B
+            - Arn
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - MyPipelineSwapBGCodeBuildCodePipelineActionRoleDEF902C3
+            - Arn
+        Version: '2012-10-17'
+      PolicyName: MyPipelineRoleDefaultPolicy34F09EFA
+      Roles:
+      - Ref: MyPipelineRoleC0D47CA4
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/MyPipeline/Role/DefaultPolicy/Resource
+  MyPipelineAED38ECF:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      RoleArn:
+        Fn::GetAtt:
+        - MyPipelineRoleC0D47CA4
+        - Arn
+      Stages:
+      - Actions:
+        - ActionTypeId:
+            Category: Source
+            Owner: AWS
+            Provider: CodeCommit
+            Version: '1'
+          Configuration:
+            RepositoryName:
+              Fn::GetAtt:
+              - CodeCommitRepoDC6A41F9
+              - Name
+            BranchName: master
+            PollForSourceChanges: false
+          Name: CodeCommit
+          OutputArtifacts:
+          - Name: Artifact_Source_CodeCommit
+          RoleArn:
+            Fn::GetAtt:
+            - MyPipelineSourceCodeCommitCodePipelineActionRole3B3AD87E
+            - Arn
+          RunOrder: 1
+        Name: Source
+      - Actions:
+        - ActionTypeId:
+            Category: Build
+            Owner: AWS
+            Provider: CodeBuild
+            Version: '1'
+          Configuration:
+            ProjectName:
+              Ref: MyProject39F7B0AE
+          InputArtifacts:
+          - Name: Artifact_Source_CodeCommit
+          Name: CodeBuild
+          OutputArtifacts:
+          - Name: Artifact_BuildAndDeploy_CodeBuild
+          RoleArn:
+            Fn::GetAtt:
+            - MyPipelineBuildAndDeployCodeBuildCodePipelineActionRoleA9E57E95
+            - Arn
+          RunOrder: 1
+        Name: BuildAndDeploy
+      - Actions:
+        - ActionTypeId:
+            Category: Approval
+            Owner: AWS
+            Provider: Manual
+            Version: '1'
+          Name: Approve
+          RoleArn:
+            Fn::GetAtt:
+            - MyPipelineApproveSwapBGApproveCodePipelineActionRole3538051B
+            - Arn
+          RunOrder: 1
+        Name: ApproveSwapBG
+      - Actions:
+        - ActionTypeId:
+            Category: Build
+            Owner: AWS
+            Provider: CodeBuild
+            Version: '1'
+          Configuration:
+            ProjectName:
+              Ref: MyProject2B52B17CC
+          InputArtifacts:
+          - Name: Artifact_Source_CodeCommit
+          Name: CodeBuild
+          RoleArn:
+            Fn::GetAtt:
+            - MyPipelineSwapBGCodeBuildCodePipelineActionRoleDEF902C3
+            - Arn
+          RunOrder: 1
+        Name: SwapBG
+      ArtifactStore:
+        EncryptionKey:
+          Id:
+            Fn::GetAtt:
+            - MyPipelineArtifactsBucketEncryptionKey8BF0A7F3
+            - Arn
+          Type: KMS
+        Location:
+          Ref: MyPipelineArtifactsBucket727923DD
+        Type: S3
+    DependsOn:
+    - MyPipelineRoleDefaultPolicy34F09EFA
+    - MyPipelineRoleC0D47CA4
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/MyPipeline/Resource
+  MyPipelineSourceCodeCommitCodePipelineActionRole3B3AD87E:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Principal:
+            AWS:
+              Fn::Join:
+              - ''
+              - - 'arn:'
+                - Ref: AWS::Partition
+                - ":iam::763449422086:root"
+        Version: '2012-10-17'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/MyPipeline/Source/CodeCommit/CodePipelineActionRole/Resource
+  MyPipelineSourceCodeCommitCodePipelineActionRoleDefaultPolicyEC1DD3CC:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+        - Action:
+          - s3:GetObject*
+          - s3:GetBucket*
+          - s3:List*
+          - s3:DeleteObject*
+          - s3:PutObject*
+          - s3:Abort*
+          Effect: Allow
+          Resource:
+          - Fn::GetAtt:
+            - MyPipelineArtifactsBucket727923DD
+            - Arn
+          - Fn::Join:
+            - ''
+            - - Fn::GetAtt:
+                - MyPipelineArtifactsBucket727923DD
+                - Arn
+              - "/*"
+        - Action:
+          - kms:Decrypt
+          - kms:DescribeKey
+          - kms:Encrypt
+          - kms:ReEncrypt*
+          - kms:GenerateDataKey*
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - MyPipelineArtifactsBucketEncryptionKey8BF0A7F3
+            - Arn
+        - Action:
+          - codecommit:GetBranch
+          - codecommit:GetCommit
+          - codecommit:UploadArchive
+          - codecommit:GetUploadArchiveStatus
+          - codecommit:CancelUploadArchive
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - CodeCommitRepoDC6A41F9
+            - Arn
+        Version: '2012-10-17'
+      PolicyName: MyPipelineSourceCodeCommitCodePipelineActionRoleDefaultPolicyEC1DD3CC
+      Roles:
+      - Ref: MyPipelineSourceCodeCommitCodePipelineActionRole3B3AD87E
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/MyPipeline/Source/CodeCommit/CodePipelineActionRole/DefaultPolicy/Resource
+  MyPipelineEventsRoleFAB99F32:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service: events.amazonaws.com
+        Version: '2012-10-17'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/MyPipeline/EventsRole/Resource
+  MyPipelineEventsRoleDefaultPolicyF045F033:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+        - Action: codepipeline:StartPipelineExecution
+          Effect: Allow
+          Resource:
+            Fn::Join:
+            - ''
+            - - 'arn:'
+              - Ref: AWS::Partition
+              - ":codepipeline:ap-southeast-2:763449422086:"
+              - Ref: MyPipelineAED38ECF
+        Version: '2012-10-17'
+      PolicyName: MyPipelineEventsRoleDefaultPolicyF045F033
+      Roles:
+      - Ref: MyPipelineEventsRoleFAB99F32
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/MyPipeline/EventsRole/DefaultPolicy/Resource
+  MyPipelineBuildAndDeployCodeBuildCodePipelineActionRoleA9E57E95:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Principal:
+            AWS:
+              Fn::Join:
+              - ''
+              - - 'arn:'
+                - Ref: AWS::Partition
+                - ":iam::763449422086:root"
+        Version: '2012-10-17'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/MyPipeline/BuildAndDeploy/CodeBuild/CodePipelineActionRole/Resource
+  MyPipelineBuildAndDeployCodeBuildCodePipelineActionRoleDefaultPolicy0DA6281D:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+        - Action:
+          - codebuild:BatchGetBuilds
+          - codebuild:StartBuild
+          - codebuild:StopBuild
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - MyProject39F7B0AE
+            - Arn
+        Version: '2012-10-17'
+      PolicyName: MyPipelineBuildAndDeployCodeBuildCodePipelineActionRoleDefaultPolicy0DA6281D
+      Roles:
+      - Ref: MyPipelineBuildAndDeployCodeBuildCodePipelineActionRoleA9E57E95
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/MyPipeline/BuildAndDeploy/CodeBuild/CodePipelineActionRole/DefaultPolicy/Resource
+  MyPipelineApproveSwapBGApproveCodePipelineActionRole3538051B:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Principal:
+            AWS:
+              Fn::Join:
+              - ''
+              - - 'arn:'
+                - Ref: AWS::Partition
+                - ":iam::763449422086:root"
+        Version: '2012-10-17'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/MyPipeline/ApproveSwapBG/Approve/CodePipelineActionRole/Resource
+  MyPipelineSwapBGCodeBuildCodePipelineActionRoleDEF902C3:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Principal:
+            AWS:
+              Fn::Join:
+              - ''
+              - - 'arn:'
+                - Ref: AWS::Partition
+                - ":iam::763449422086:root"
+        Version: '2012-10-17'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/MyPipeline/SwapBG/CodeBuild/CodePipelineActionRole/Resource
+  MyPipelineSwapBGCodeBuildCodePipelineActionRoleDefaultPolicy91F58B9E:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+        - Action:
+          - codebuild:BatchGetBuilds
+          - codebuild:StartBuild
+          - codebuild:StopBuild
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - MyProject2B52B17CC
+            - Arn
+        Version: '2012-10-17'
+      PolicyName: MyPipelineSwapBGCodeBuildCodePipelineActionRoleDefaultPolicy91F58B9E
+      Roles:
+      - Ref: MyPipelineSwapBGCodeBuildCodePipelineActionRoleDEF902C3
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/MyPipeline/SwapBG/CodeBuild/CodePipelineActionRole/DefaultPolicy/Resource
+  OnCommitEventEventsRole4B7E4A42:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service: events.amazonaws.com
+        Version: '2012-10-17'
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/OnCommitEvent/EventsRole/Resource
+  OnCommitEventEventsRoleDefaultPolicy075E414C:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+        - Action: codebuild:StartBuild
+          Effect: Allow
+          Resource:
+            Fn::GetAtt:
+            - MyProject39F7B0AE
+            - Arn
+        Version: '2012-10-17'
+      PolicyName: OnCommitEventEventsRoleDefaultPolicy075E414C
+      Roles:
+      - Ref: OnCommitEventEventsRole4B7E4A42
+    Metadata:
+      aws:cdk:path: CdkStackALBEksBg/OnCommitEvent/EventsRole/DefaultPolicy/Resource
+Outputs:
+  ClusterClusterNameEB26049E:
+    Value:
+      Ref: Cluster9EE0221C
+  ClusterConfigCommand43AAE40F:
+    Value:
+      Fn::Join:
+      - ''
+      - - 'aws eks update-kubeconfig --name '
+        - Ref: Cluster9EE0221C
+        - " --region ap-southeast-2 --role-arn "
+        - Fn::GetAtt:
+          - AdminRole38563C57
+          - Arn
+  ClusterGetTokenCommand06AE992E:
+    Value:
+      Fn::Join:
+      - ''
+      - - 'aws eks get-token --cluster-name '
+        - Ref: Cluster9EE0221C
+        - " --region ap-southeast-2 --role-arn "
+        - Fn::GetAtt:
+          - AdminRole38563C57
+          - Arn
+  CodeCommitRepoName:
+    Value:
+      Fn::GetAtt:
+      - CodeCommitRepoDC6A41F9
+      - Name
+  CodeCommitRepoArn:
+    Value:
+      Fn::GetAtt:
+      - CodeCommitRepoDC6A41F9
+      - Arn
+  CodeCommitCloneUrlSsh:
+    Value:
+      Fn::GetAtt:
+      - CodeCommitRepoDC6A41F9
+      - CloneUrlSsh
+  CodeCommitCloneUrlHttp:
+    Value:
+      Fn::GetAtt:
+      - CodeCommitRepoDC6A41F9
+      - CloneUrlHttp
+Parameters:
+  AssetParametersf8180bff2a23be3f5a1fee126adab8881214d211868a8b0adc8ba767dd9d430cS3Bucket78325ACE:
+    Type: String
+    Description: S3 bucket for asset "f8180bff2a23be3f5a1fee126adab8881214d211868a8b0adc8ba767dd9d430c"
+  AssetParametersf8180bff2a23be3f5a1fee126adab8881214d211868a8b0adc8ba767dd9d430cS3VersionKey5DEF2AA3:
+    Type: String
+    Description: S3 key for asset version "f8180bff2a23be3f5a1fee126adab8881214d211868a8b0adc8ba767dd9d430c"
+  AssetParametersf8180bff2a23be3f5a1fee126adab8881214d211868a8b0adc8ba767dd9d430cArtifactHashB9A9C46C:
+    Type: String
+    Description: Artifact hash for asset "f8180bff2a23be3f5a1fee126adab8881214d211868a8b0adc8ba767dd9d430c"
+  AssetParametersf587c683163dea7b70b883fe8f803ffe0622a40e05b3766e08ffa9ed25caabc9S3Bucket6B4B2C9B:
+    Type: String
+    Description: S3 bucket for asset "f587c683163dea7b70b883fe8f803ffe0622a40e05b3766e08ffa9ed25caabc9"
+  AssetParametersf587c683163dea7b70b883fe8f803ffe0622a40e05b3766e08ffa9ed25caabc9S3VersionKey8971BB19:
+    Type: String
+    Description: S3 key for asset version "f587c683163dea7b70b883fe8f803ffe0622a40e05b3766e08ffa9ed25caabc9"
+  AssetParametersf587c683163dea7b70b883fe8f803ffe0622a40e05b3766e08ffa9ed25caabc9ArtifactHash72EE40C1:
+    Type: String
+    Description: Artifact hash for asset "f587c683163dea7b70b883fe8f803ffe0622a40e05b3766e08ffa9ed25caabc9"
+  AssetParameters809b8ac7e88704d37fac32bbd5cfa56be7ea4d3e9ddb682d216c4b6868cd8fa2S3Bucket8A1A4BE8:
+    Type: String
+    Description: S3 bucket for asset "809b8ac7e88704d37fac32bbd5cfa56be7ea4d3e9ddb682d216c4b6868cd8fa2"
+  AssetParameters809b8ac7e88704d37fac32bbd5cfa56be7ea4d3e9ddb682d216c4b6868cd8fa2S3VersionKeyB580A234:
+    Type: String
+    Description: S3 key for asset version "809b8ac7e88704d37fac32bbd5cfa56be7ea4d3e9ddb682d216c4b6868cd8fa2"
+  AssetParameters809b8ac7e88704d37fac32bbd5cfa56be7ea4d3e9ddb682d216c4b6868cd8fa2ArtifactHash5CE7C76A:
+    Type: String
+    Description: Artifact hash for asset "809b8ac7e88704d37fac32bbd5cfa56be7ea4d3e9ddb682d216c4b6868cd8fa2"
+  AssetParameters1c42d31e41f9a3c731913650a3321cf296f98eaa5c5995839adca34de9ba2b27S3Bucket1E581517:
+    Type: String
+    Description: S3 bucket for asset "1c42d31e41f9a3c731913650a3321cf296f98eaa5c5995839adca34de9ba2b27"
+  AssetParameters1c42d31e41f9a3c731913650a3321cf296f98eaa5c5995839adca34de9ba2b27S3VersionKeyC0A4C22D:
+    Type: String
+    Description: S3 key for asset version "1c42d31e41f9a3c731913650a3321cf296f98eaa5c5995839adca34de9ba2b27"
+  AssetParameters1c42d31e41f9a3c731913650a3321cf296f98eaa5c5995839adca34de9ba2b27ArtifactHashE63CB8EB:
+    Type: String
+    Description: Artifact hash for asset "1c42d31e41f9a3c731913650a3321cf296f98eaa5c5995839adca34de9ba2b27"
+  AssetParameters6d207d68ce75627eef7c78d5038e195084944eb6126a4d9b6788767fed72d214S3BucketF6C0889F:
+    Type: String
+    Description: S3 bucket for asset "6d207d68ce75627eef7c78d5038e195084944eb6126a4d9b6788767fed72d214"
+  AssetParameters6d207d68ce75627eef7c78d5038e195084944eb6126a4d9b6788767fed72d214S3VersionKey308606BF:
+    Type: String
+    Description: S3 key for asset version "6d207d68ce75627eef7c78d5038e195084944eb6126a4d9b6788767fed72d214"
+  AssetParameters6d207d68ce75627eef7c78d5038e195084944eb6126a4d9b6788767fed72d214ArtifactHashA56DC5D7:
+    Type: String
+    Description: Artifact hash for asset "6d207d68ce75627eef7c78d5038e195084944eb6126a4d9b6788767fed72d214"
+  SsmParameterValueawsserviceeksoptimizedami114amazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: "/aws/service/eks/optimized-ami/1.14/amazon-linux-2/recommended/image_id"
