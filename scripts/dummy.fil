@@ -7,3 +7,4 @@ json looks good, now integrating with Lambda, hopefully it executes!
 let's hope the Lambda gets called!
 let's see if slack is working with the lambda function, ps. the lambda wasn't called from Synk
 slack integration completed, need to integrate with the CI/CD pipeline!
+hopefully this works!
