@@ -14,3 +14,4 @@ it is working! integrating with SecHub!
 
 trying out negative execution of Snyk - the snyk test cmmand was giving exit code 1 which was causign issues
 integration test check!
+final test - added remediation link to SecHub for remediation
