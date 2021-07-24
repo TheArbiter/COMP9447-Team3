@@ -11,3 +11,5 @@ hopefully this works!
 sadly didnt happen.. lemmi try it again!
 plz work
 it is working! integrating with SecHub!
+
+trying out negative execution of Snyk - the snyk test cmmand was giving exit code 1 which was causign issues
