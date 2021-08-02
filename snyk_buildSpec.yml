@@ -1,0 +1,29 @@
+version: 0.2
+
+env:
+  parameter-store:
+    # Requires that you have a secure string in AWS Systems Manager Parameter Store
+    # called "snykAuthToken" with your Snyk token.
+    SNYK_TOKEN: "snykAuthToken"
+
+phases:
+  install:
+    commands:
+      - npm install -g snyk
+  build:
+    commands:
+      - npm install
+      - snyk test
+      #- snyk wizard
+      - snyk monitor --org=acasiawinslet
+  post_build:
+    commands:
+      - snyk test --json --json-file-output=snyk_output.json || echo "downstram security issues detected"
+      - |
+        jq "{ \"messageType\": \"CodeScanReport\", \"reportType\": \"SYNK-codescan-report\", \
+        \"createdAt\": $(date +\"%Y-%m-%dT%H:%M:%S.%3NZ\"), \"source_repository\": env.CODEBUILD_SOURCE_REPO_URL, \
+        \"source_branch\": env.CODEBUILD_SOURCE_VERSION, \
+        \"build_id\": env.CODEBUILD_BUILD_ID, \
+        \"source_commitid\": env.CODEBUILD_RESOLVED_SOURCE_VERSION, \
+        \"report\": . }" snyk_output.json > payload.json
+      - aws lambda invoke --function-name arn:aws:lambda:ap-southeast-2:763449422086:function:sca-lambda-nv --payload file://payload.json out.txt
