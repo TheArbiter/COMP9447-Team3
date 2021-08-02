@@ -26,4 +26,4 @@ phases:
         \"build_id\": env.CODEBUILD_BUILD_ID, \
         \"source_commitid\": env.CODEBUILD_RESOLVED_SOURCE_VERSION, \
         \"report\": . }" snyk_output.json > payload.json
-      - aws lambda invoke --function-name arn:aws:lambda:ap-southeast-2:763449422086:function:sca-lambda-nv --payload file://payload.json out.txt
+      - aws lambda invoke --function-name arn:aws:lambda:ap-southeast-2:292930447602:function:sca-lambda-nv --payload file://payload.json out.txt
