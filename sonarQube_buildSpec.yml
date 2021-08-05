@@ -22,10 +22,12 @@ phases:
       #- sonar-scanner -Dsonar.organization=$Organization -Dsonar.projectKey=$Project -Dsonar.host.url=$HOST -Dsonar.login=$LOGIN
       #- sonar-scanner -Dsonar.projectKey=9447-Team3 -Dsonar.sources=. -Dsonar.host.url=http://3.106.166.66:9000 -Dsonar.login=9200bbd7377556735bec56b318796765c7ad3a16
       #- sonar-scanner -Dsonar.projectKey=9447-Team3 -Dsonar.sources=. -Dsonar.host.url=http://3.25.152.30:9000 -Dsonar.login=9200bbd7377556735bec56b318796765c7ad3a16
-      - sonar-scanner  -Dsonar.projectKey=$Project -Dsonar.sources=. -Dsonar.host.url=$HOST -Dsonar.login=$LOGIN
+      #- sonar-scanner  -Dsonar.projectKey=$Project -Dsonar.sources=. -Dsonar.host.url=$HOST -Dsonar.login=$LOGIN
+      - sonar-scanner  -Dsonar.projectKey=9443-Team3 -Dsonar.sources=. -Dsonar.host.url=http://3.25.152.30:9000/ -Dsonar.login=f5c7ecda25e755edc4432d1620a089dc48bc8cdd
+
       - sleep 5
       #- curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project > analysis.json
-      - curl $HOST/api/qualitygates/project_status?projectKey=$Project > analysis.json
+      - curl http://3.25.152.30:9000/api/qualitygates/project_status?projectKey=9443-Team3 > analysis.json
       #- curl http://3.106.166.66:9000/api/qualitygates/project_status?projectKey=9447-Team3 > analysis.json
       - cat analysis.json
   build:
